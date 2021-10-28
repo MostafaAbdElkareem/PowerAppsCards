@@ -1,0 +1,69 @@
+- adx_name: Restrict Read on Services Card view
+  adx_right: 2
+  adx_webpageaccesscontrolrule_webrole:
+  - dd01e947-eb2c-ec11-b6e6-0022481475fb
+  - de01e947-eb2c-ec11-b6e6-0022481475fb
+  adx_webpageaccesscontrolruleid: 02baa350-1132-ec11-b6e6-00224818049e
+  adx_webpageid: 3c24c9b2-d7e7-4904-99f9-0e2775d11e1b
+- adx_name: Restrict Read on Home
+  adx_right: 2
+  adx_scope: 2
+  adx_webpageaccesscontrolrule_webrole:
+  - dd01e947-eb2c-ec11-b6e6-0022481475fb
+  - de01e947-eb2c-ec11-b6e6-0022481475fb
+  adx_webpageaccesscontrolruleid: 0ad2c331-ec2c-ec11-b6e6-0022481475fb
+  adx_webpageid: cb01e947-eb2c-ec11-b6e6-0022481475fb
+  statecode: 1
+  statuscode: 2
+- adx_name: Restrict Read on Services
+  adx_right: 2
+  adx_webpageaccesscontrolrule_webrole:
+  - dd01e947-eb2c-ec11-b6e6-0022481475fb
+  - de01e947-eb2c-ec11-b6e6-0022481475fb
+  adx_webpageaccesscontrolruleid: 1682fbe1-ee2c-ec11-b6e6-0022481475fb
+  adx_webpageid: d201e947-eb2c-ec11-b6e6-0022481475fb
+- adx_name: Restrict Read on Providers
+  adx_right: 2
+  adx_webpageaccesscontrolrule_webrole:
+  - dd01e947-eb2c-ec11-b6e6-0022481475fb
+  - de01e947-eb2c-ec11-b6e6-0022481475fb
+  adx_webpageaccesscontrolruleid: 739eecf7-ee2c-ec11-b6e6-0022481475fb
+  adx_webpageid: d801e947-eb2c-ec11-b6e6-0022481475fb
+- adx_name: Restrict Read on reports
+  adx_right: 2
+  adx_webpageaccesscontrolrule_webrole:
+  - dd01e947-eb2c-ec11-b6e6-0022481475fb
+  - de01e947-eb2c-ec11-b6e6-0022481475fb
+  adx_webpageaccesscontrolruleid: 80fe33e1-de30-ec11-b6e6-00224818049e
+  adx_webpageid: f6c4e435-a65d-47f9-874e-a0d9955bf465
+- adx_name: Restrict Read on Dashboard
+  adx_right: 2
+  adx_webpageaccesscontrolrule_webrole:
+  - dd01e947-eb2c-ec11-b6e6-0022481475fb
+  - de01e947-eb2c-ec11-b6e6-0022481475fb
+  adx_webpageaccesscontrolruleid: 9b93887f-ef2c-ec11-b6e6-0022481475fb
+  adx_webpageid: 1e573d77-fcb5-44e3-bc87-eff50f858095
+- adx_name: Restrict Read on New Provider
+  adx_right: 2
+  adx_webpageaccesscontrolrule_webrole:
+  - dd01e947-eb2c-ec11-b6e6-0022481475fb
+  - de01e947-eb2c-ec11-b6e6-0022481475fb
+  adx_webpageaccesscontrolruleid: bb8cadf1-502d-ec11-b6e6-0022481475fb
+  adx_webpageid: da76b438-1a2d-4703-8659-776d023545d1
+- adx_name: Restrict Read on New Service
+  adx_right: 2
+  adx_webpageaccesscontrolrule_webrole:
+  - dd01e947-eb2c-ec11-b6e6-0022481475fb
+  - de01e947-eb2c-ec11-b6e6-0022481475fb
+  adx_webpageaccesscontrolruleid: d7d2e187-422d-ec11-b6e6-0022481475fb
+  adx_webpageid: f3a13fbc-903c-451e-b5a5-8e1b1371865d
+- adx_name: Grant Change to Administrators
+  adx_right: 1
+  adx_webpageaccesscontrolrule_webrole:
+  - de01e947-eb2c-ec11-b6e6-0022481475fb
+  adx_webpageaccesscontrolruleid: da01e947-eb2c-ec11-b6e6-0022481475fb
+  adx_webpageid: cb01e947-eb2c-ec11-b6e6-0022481475fb
+- adx_name: Grant Change to Content
+  adx_right: 1
+  adx_webpageaccesscontrolrule_webrole: []
+  adx_webpageaccesscontrolruleid: db01e947-eb2c-ec11-b6e6-0022481475fb

@@ -1,0 +1,328 @@
+{% entitylist id:page.adx_entitylist.id %}
+  <input type="checkbox" id="sidebartoggler" name="" value="">
+  <div class="page-wrap">
+   <label for="sidebartoggler" class="toggle"><span class="glyphicon glyphicon-filter"></span><span class="filter-lbl">Filters & Views:</span></label>
+  <div class="page-content">
+  {% entityview id:params.view, search:params.search, order:params.order, page:params.page, pagesize:params.pagesize, metafilter:params.mf %}
+    {% assign order = params.order | default: entityview.sort_expression %}
+    
+     <div class="col-md-12">
+     <h2>{{ entitylist.adx_name | h }}</h1>
+     </div>
+
+ 
+
+<div class="col-md-6">
+<div class="sorting">
+<span><strong>Sort by: </strong></span>
+ {% for c in entityview.columns -%}
+            <span class="sort" data-logicalname="{{ c.logical_name  | h }} ">
+              {% if c.sort_enabled %}
+                {% assign current_sort = order | current_sort:c.logical_name %}
+                {% case current_sort %}
+                {% when 'ASC' %}
+                  <a href="{{ request.path_and_query | add_query:'order', c.sort_descending  | h }}">
+                    {{ c.name  | h }} <i class="fa fa-sort-asc"></i>
+                  </a>
+                {% when 'DESC' %}
+                  <a href="{{ request.path_and_query | add_query:'order', c.sort_ascending  | h }}">
+                    {{ c.name  | h }} <i class="fa fa-sort-desc"></i>
+                  </a>
+                {% else %}
+                  <a href="{{ request.path_and_query | add_query:'order', c.sort_ascending  | h }}">
+                    {{ c.name  | h }} <i class="fa fa-unsorted"></i>
+                  </a>
+                {% endcase %}
+              {% else %}
+                {{ c.name  | h }}
+              {% endif %}
+            </span>
+          {% endfor -%}
+          </div>
+</div>
+<div class="col-md-5">
+ {% if entityview.pages.size > 0 %}
+      {% assign first_page = entityview.first_page %}
+      {% assign last_page = entityview.last_page %}
+      {% assign page_offset = entityview.page | minus:1 | divided_by:10 | times:10 %}
+      {% assign page_slice_first_page = page_offset | plus:1 %}
+      {% assign page_slice_last_page = page_offset | plus:10 %}
+
+      <ul class="custom-pagination" >
+        <li {% unless first_page and entityview.page > 1 %}class="disabled"{% endunless %}>
+          <a
+            {% if first_page and entityview.page > 1 %}
+              href="{{ request.url | add_query:'page', first_page | path_and_query  | h }}"
+            {% endif %}>
+            &laquo;
+          </a>
+        </li>
+
+        <li {% unless entityview.previous_page %}class="disabled"{% endunless %}>
+          <a
+            {% if entityview.previous_page %}
+              href="{{ request.url | add_query:'page', entityview.previous_page | path_and_query  | h }}"
+            {% endif %}>
+            &lsaquo;
+          </a>
+        </li>
+
+        {% if page_slice_first_page > 1 %}
+          {% assign previous_slice_last_page = page_slice_first_page | minus:1 %}
+          <li>
+            <a href="{{ request.url | add_query:'page', previous_slice_last_page | path_and_query  | h }}">
+              &hellip;
+            </a>
+          </li>
+        {% endif %}
+
+        {% for page in entityview.pages offset:page_offset limit:4 -%}
+          <li{% if page == entityview.page %} class="active"{% endif %}>
+            <a href="{{ request.url | add_query:'page', page | path_and_query  | h }}">
+               {{ page }}
+              
+            </a>
+          </li>
+        {% endfor -%}
+
+        {% if page_slice_last_page < entityview.pages.size %}
+          {% assign next_slice_first_page = page_slice_last_page | plus:1 %}
+          <li>
+            <a href="{{ request.url | add_query:'page', next_slice_first_page | path_and_query  | h }}">
+              &hellip;
+            </a>
+          </li>
+        {% endif %}
+
+        <li {% unless entityview.next_page %}class="disabled"{% endunless %}>
+          <a
+            {% if entityview.next_page %}
+              href="{{ request.url | add_query:'page', entityview.next_page | path_and_query  | h }}"
+            {% endif %}>
+            &rsaquo;
+          </a>
+        </li>
+
+        <li {% unless last_page and entityview.page < last_page %}class="disabled"{% endunless %}>
+          <a
+            {% if last_page and entityview.page < last_page %}
+              href="{{ request.url | add_query:'page', last_page | path_and_query  | h }}"
+            {% endif %}>
+            &raquo;
+          </a>
+        </li>
+      </ul>
+
+    {% endif %}
+    </div>
+
+    {% if entitylist.create_enabled %}
+<div class="col-md-1">
+<ul class="nav navbar-nav add-btn-right">
+<li>
+<button class="btn btn-default" onClick='openModal("{{ entitylist.create_url  | h }}", "md-dlg")'>
+<i class="fa fa-plus"></i> {{ entitylist.create_label | default: 'Create' | h }}
+</button>
+</li>
+</ul>
+</div>
+{% endif %}
+<div class="clearfix"></div>
+    <ul class="surveys grid provider-list" data-order="{{ order  | h }}" >    
+        {% for e in entityview.records -%}
+        <li class="item">
+        {% for c in entityview.columns -%}
+          {% assign attr = e[c.logical_name] %}
+          {% assign attr_type = c.attribute_type | downcase %}
+          <div class="grid-float-lg" data-logicalname="{{ c.logical_name}}">
+          <span class="lbl">{{ c.name}}:</span>
+          <span class="survey-name">
+          {% if attr.is_entity_reference -%}
+          {{ attr.name }}
+          {% elsif attr_type == 'datetime' %}
+          {% if attr %}
+          <time datetime="{{ attr | date_to_iso8601}}" >
+          {{ attr}}
+          </time>
+          {% endif %}
+          {% elsif attr_type == 'picklist' %}
+          {{ attr.label}}
+          {% else %}
+          {{ attr}}
+        
+{% endif -%}
+        </span>
+        </div>
+{% endfor -%}  
+<div class="clearRow"></div>
+<div class="news-Slide-up">
+        <div class="grid-only newsCaption">
+            <div class="newsCaption-title"><i class="icon-menu"></i> Actions</div>
+            <ul class="actions">
+            <li><a href="#" class="newsCaption-link">Manage users permissions</a></li> 
+              {% if entitylist.detail_enabled -%}
+                <li><a class="btn btn-default btn-xs"
+                  href="{{ entitylist.detail_url}}?{{ entitylist.detail_id_parameter  | h }}={{ e.id }}"
+                  title="{{ entitylist.detail_label  | h }}" >
+                  <i class="fa fa-external-link"></i>
+                </a></li>                
+                {% endif -%}
+            </ul>
+        </div>
+               </div> 
+              
+        </li>
+        {% endfor -%}      
+     </ul>
+    {% endentityview %}
+    </div>
+
+    <div class="sidebar">  
+    <h3>Filters & views panel</h2>
+
+    <!-- views -->
+<div class="collapse navbar-collapse" id="entitylist-navbar-{{ entitylist.id | h }} ">
+{% if entitylist.views.size > 1 %}
+<ul class="nav navbar-nav">
+<li class="dropdown">
+<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+<i class="fa fa-list"></i> Select View: <span class="caret"></span>
+</a>
+<ul class="dropdown-menu" role="menu">
+{% for view in entitylist.views -%}
+<li{% if params.view == view.id %} class="active"{% endif %}>
+<a href="{{ request.path | add_query:'view', view.id | h }}">{{view.name | h }}</a>
+</li>
+{% endfor -%}
+</ul>
+</li>
+</ul>
+{% endif %}
+<div class="line"></div>
+</div>
+      
+<!-- end views -->
+    <!-- search -->
+      {% if entitylist.search_enabled %}
+          <form class="search-container" method="get">
+            <div class="input-group">
+              {% if params.search.size > 0 %}
+                <div class="input-group-btn">
+                  <a class="btn btn-default"
+                    href="{{ request.path_and_query | remove_query:'search' | h }}">&times;</a>
+                </div>
+              {% endif %}
+              <input name="search" class="form-control"
+                value="{{ params.search  | h }}"
+                placeholder="{{ entitylist.search_placeholder | default: 'Search'  | h }}"
+                type="text"/>
+              <div class="input-group-btn">
+                <button type="submit" class="btn btn-default"
+                  title="{{ entitylist.search_tooltip  | h }}">
+                  <i class="fa fa-search">&nbsp;</i>
+                </button>
+              </div>
+            </div>
+          </form>
+          <div class="line"></div>
+        {% endif %}
+   <!-- end search-->
+        <!-- filters -->
+        {% if entitylist.filter_enabled %}     
+      <div class="filters">
+     {% assign filters = entitylist | metafilters: params.mf, entityview %}
+{% if filters.size > 0 %}
+  <ul id="entitylist-filters" class="filters-container">
+    {% for filter in filters %}
+      <li class=entitylist-filter-option-group>
+        {% if filter.selection_mode == 'Single' %}
+          {% assign type = 'radio' %}
+        {% else %}
+          {% assign type = 'checkbox' %}
+        {% endif %}
+        <h4 class=entitylist-filter-option-group-label
+          data-filter-id={{ filter.id | h }}>
+          {{ filter.label | h }}
+        </h4>
+        <ul>
+          {% for option in filter.options %}
+            <li class=entitylist-filter-option>
+              {% if option.type == 'text' %}
+                <div class=input-group entitylist-filter-option-text>
+                  <span class=input-group-addon>
+                    <span class=fa fa-filter aria-hidden=true></span>
+                  </span>
+                  <input class=form-control
+                    type=text
+                    name={{ filter.id | h }}
+                    value={{ option.text | h }} />
+                </div>
+              {% else %}
+                <div class={{ type | h }}>
+                  <label>
+                    <input
+                      type={{ type | h }}
+                      name={{ filter.id | h }}
+                      value={{ option.id | h }}
+                      {% if option.checked %}
+                        checked=checked
+                        data-checked=true{% endif %}
+                      />
+                    {{ option.label | h }}
+                  </label>
+                </div>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      </li>
+    {% endfor %}
+  </ul>
+  <div class="float-right">
+  <button class='btn btn-default' data-serialized-query='mf' data-target='#entitylist-filters'>Apply Filters</button>
+  </div>
+{% endif %}
+      </div>
+      <div class="line"></div>
+      {% endif %}
+        <!-- end filter -->
+
+
+    </div>
+ 
+  </div>
+{% endentitylist %}
+
+<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+
+  <script>
+  
+  function openModal(url, dlgSize){
+    /* dlgSize options are large ["lg-dlg"], meduim ["md-dlg"] and small ["sm-dlg"] check the css to change it*/
+    console.log(url, dlgSize)
+     $("#modal-container").removeAttr("class").addClass('dlgbox '+ dlgSize);
+            $("#iFrame-holder").attr('src', url);
+            $("body").addClass("modal-active");
+
+  }
+    /* close modal */
+$(document).ready(function() {
+  
+   $("#close-dlg").click(function() {
+        $("#modal-container").addClass("out");
+        $("body").removeClass("modal-active");
+    });
+    
+});
+  </script>
+<div id="modal-container">
+    <div class="modal-background">
+        <div class="modal">
+            <div id="close-dlg">close</div>
+            <iframe id="iFrame-holder" width="100%" height="100%" frameborder="0" class="ifrmae-dlg"></iframe>        
+        </div>
+    </div>
+</div>

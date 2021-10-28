@@ -1,0 +1,29 @@
+{% fetchxml services %}
+<fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false" count='1000'>
+    <entity name="cr884_nqaits_myservices">
+        <attribute name="cr884_nqaits_myservicesid"></attribute>
+        <attribute name="cr884_approvalnumber"></attribute>
+        <attribute name="cr884_approvalstatus"></attribute>
+        <attribute name="cr884_managingjurisdiction"></attribute>
+        <attribute name="cr884_name"></attribute>
+        <attribute name="cr884_providersummaryapprovalnumber"></attribute>
+        <attribute name="cr884_servicenumber"></attribute>
+        <attribute name="statuscode"></attribute>
+        <filter type="and">
+            <condition attribute="cr884_name" operator="not-null"></condition>
+        </filter>
+    </entity>
+</fetch>
+
+{% endfetchxml %}
+[
+{% for item in services.results.entities %}
+{
+"name": "{{ item.cr884_name }}",
+"status": "{{ item.cr884_approvalstatus}}",
+"state": "{{ item.cr884_managingjurisdiction }}",
+"serviceNo":"{{item.cr884_servicenumber}}",
+"providerNo": "{{ item.cr884_providersummaryapprovalnumber}}"
+}{% unless forloop.last %},{% endunless %}
+{% endfor -%}
+]

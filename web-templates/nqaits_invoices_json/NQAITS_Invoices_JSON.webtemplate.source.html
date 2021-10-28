@@ -1,0 +1,30 @@
+{% fetchxml invoices %}
+<fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">
+    <entity name="cr884_nqaits_myinvoices">
+        <attribute name="cr884_nqaits_myinvoicesid"></attribute>
+        <attribute name="cr884_amount"></attribute>
+        <attribute name="cr884_description"></attribute>
+        <attribute name="cr884_email"></attribute>
+        <attribute name="cr884_name"></attribute>
+        <attribute name="cr884_receiptnumber"></attribute>
+        <attribute name="cr884_providerapprovalnumber"></attribute>
+        <attribute name="cr884_preventportalpayment"></attribute>
+        <filter type="and">
+            <condition attribute="cr884_feeid" operator="not-null"></condition>
+        </filter>
+    </entity>
+</fetch>
+
+{% endfetchxml %}
+[
+{% for item in invoices.results.entities %}
+{
+"name": "{{ item.cr884_name }}",
+"amount": "{{ item.cr884_amount}}",
+"description": "{{ item.cr884_description }}",
+"email":"{{item.cr884_email}}",
+"receiptnumber":"item.cr884_receiptnumber"
+"providerNo": "{{ item.cr884_providerapprovalnumber}}"
+}{% unless forloop.last %},{% endunless %}
+{% endfor -%}
+]

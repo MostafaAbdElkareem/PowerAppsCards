@@ -1,0 +1,22 @@
+- adx_adddescription: false
+  adx_attributelogicalname: cr884_nqaitsprovidername
+  adx_entityform: 73ce8ec2-422d-ec11-b6e6-0022481475fb
+  adx_entityformmetadataid: 1f1b745e-e532-ec11-b6e6-00224818049e
+  adx_fieldisrequired: false
+  adx_ignoredefaultvalue: false
+  adx_label: >-
+    [
+
+      {
+
+        "LCID": 1033,
+
+        "Value": "Provider Name : "
+
+      }
+
+    ]
+  adx_randomizeoptionsetvalues: false
+  adx_setvalueonsave: false
+  adx_type: 100000000
+  adx_useattributedescriptionproperty: true

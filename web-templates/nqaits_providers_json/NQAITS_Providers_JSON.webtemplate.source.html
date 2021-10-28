@@ -1,0 +1,30 @@
+{% fetchxml providers %}
+<fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false" count="4000">
+  <entity name="cr884_nqaits_myproviders">
+    <attribute name="cr884_nqaits_myprovidersid" ></attribute>
+    <attribute name="cr884_approvalstatus" ></attribute>
+    <attribute name="cr884_crmid" ></attribute>
+    <attribute name="cr884_managingjurisdiction" ></attribute>
+    <attribute name="cr884_email" ></attribute>
+    <attribute name="cr884_approvalstatusid" ></attribute>
+    <attribute name="cr884_name" ></attribute>
+    <attribute name="cr884_providernumber" ></attribute>
+        <attribute name="createdon"></attribute>
+       <filter type="and">
+            <condition attribute="cr884_nqaits_myprovidersid" operator="not-null"></condition>
+        </filter>
+  </entity>
+</fetch>
+{% endfetchxml %}
+[
+{% for item in providers.results.entities %}
+{
+"name": "{{ item.cr884_name }}",
+"status": "{{ item.cr884_approvalstatus}}",
+"state": "{{ item.cr884_managingjurisdiction }}",
+"providerNo":"{{item.cr884_providernumber}}",
+"email": "{{ item.cr884_email}}",
+"createdon" :"{{item.createdon}}"
+}{% unless forloop.last %},{% endunless %}
+{% endfor %}
+]

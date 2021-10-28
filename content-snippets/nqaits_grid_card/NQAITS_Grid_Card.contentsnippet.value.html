@@ -1,0 +1,223 @@
+<link href="/cardsgrids.css" rel="stylesheet">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js"></script><span view-data-toggle="grid" class="toggler active"><span class="entypo-layout"></span></span>
+<span view-data-toggle="card" class="toggler"><span class="entypo-list"></span></span>
+<div id="providers-list">
+    <header class="top-bar">
+        Filters: <input placeholder="Search Providers" class="fuzzy-search"> Sorting:
+        <span data-sort="createdon" class="sort">Sort by created date</span>
+        <span data-sort="name" class="sort">Sort by Name</span>
+        <span data-sort="email" class="sort">Sort by Email</span>
+        <span data-sort="state" class="sort">Sort by State</span>
+        <span data-sort="providerNo" class="sort">Sort by Provider No</span>
+
+
+        <div class="float-right">
+            <input type="button" onclick="addProvider(true)" value="Add Provider" class="btn btn-primary" dlg-data="dlgbox">
+        </div>
+    </header>
+    <div id="preloader" class="preloader">
+
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 30 30" enable-background="new 0 0 30 30" xml:space="preserve" width="30" height="30">
+            <rect fill="#FBBA44" width="15" height="15">
+                <animateTransform attributeName="transform" attributeType="XML" type="translate" dur="1.7s" values="0,0;15,0;15,15;0,15;0,0;" repeatCount="indefinite"></animateTransform>
+            </rect>
+            <rect x="15" fill="#E84150" width="15" height="15">
+                <animateTransform attributeName="transform" attributeType="XML" type="translate" dur="1.7s" values="0,0;0,15;-15,15;-15,0;0,0;" repeatCount="indefinite"></animateTransform>
+            </rect>
+            <rect x="15" y="15" fill="#62B87B" width="15" height="15">
+                <animateTransform attributeName="transform" attributeType="XML" type="translate" dur="1.7s" values="0,0;-15,0;-15,-15;0,-15;0,0;" repeatCount="indefinite"></animateTransform>
+            </rect>
+            <rect y="15" fill="#2F6FB6" width="15" height="15">
+                <animateTransform attributeName="transform" attributeType="XML" type="translate" dur="1.7s" values="0,0;0,-15;15,-15;15,0;0,0;" repeatCount="indefinite"></animateTransform>
+            </rect>
+        </svg>
+    </div>
+    <div class="pagination-contianer">
+        <ul class="paginationTop"></ul>
+    </div>
+    <ul class="surveys grid provider-list">
+    </ul>
+    <div class="pagination-contianer">
+        <ul class="paginationBottom"></ul>
+    </div>
+</div>
+<div id="modal-container">
+    <div class="modal-background">
+        <div class="modal">
+            <div id="close-dlg">close</div>
+
+            <iframe id="new-provider" src="/newprovider/" width="100%" height="100%" frameborder="0" class="hide-me ifrmae-dlg"></iframe>
+            <iframe id="new-service" src="/newservice/" width="100%" height="100%" frameborder="0" class="hide-me ifrmae-dlg"></iframe>
+            <div id="provider-list-container">
+                <h2>Related Services</h2>
+
+                <div class="pagination-contianer">
+                    <ul class="paginationTop"></ul>
+                </div>
+                <ul class="surveys grid service-list">
+                </ul>
+                <div id="no-services" class="hide-me error">No related services found for this provider</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="hide-me">
+    <li id="card-template" class="item news-Slide-up">
+        <div class="grid-float-lg"><span class="lbl">Provider Name:</span><span class="survey-name name"></span></div>
+        <div class="grid-float-md"><span class="lbl">Provider Number:</span><span class="survey-name providerNo"></span>
+        </div>
+        <div class="grid-float-sm"><span class="lbl">State:</span><span class="survey-country state"></span></div>
+        <div class="grid-float-sm"><span class="lbl">Status:</span><span class="status">Status:</span></div>
+        <div class="grid-float-md"><span class="lbl">Email:</span><a href="#"> <span class="survey-end-date ended email">
+                </span></a></div>
+                <div class="grid-float-sm"><span class="lbl">Created on:</span><span class="createdon">Status:</span></div>
+        <div class="clearRow"></div>
+        <div class="grid-only newsCaption">
+            <div class="newsCaption-title"><i class="icon-menu"></i> Actions</div>
+            <ul class="actions">
+                <li><a dlg-data="dlgbox" href="#" class="newsCaption-link related-items">View connected services and
+                        forms <span class="providerNo"></span></a></li>
+                <li><a href="#" class="newsCaption-link" onclick="addService(true)" dlg-data="dlgbox">Add new
+                        Services</a></li>
+                <li><a href="#" class="newsCaption-link">Manage users permissions</a></li>
+            </ul>
+        </div>
+    </li>
+    <li id="service-template" class="item">
+        <div class="grid-float-lg"><span class="lbl">Service Name:</span><span class="name"> </span></div>
+        <div class="grid-float-md"><span class="lbl">Provider Number:</span><span class="providerNo"></span></div>
+        <div class="grid-float-md"><span class="lbl">Service Number:</span><span class="serviceNo"></span></div>
+        <div class="grid-float-sm"><span class="lbl">Status:</span><span class="status"></span></div>
+        <div class="grid-float-sm"><span class="lbl">State:</span><span class="state"></span></div>
+        <div class="clearRow"></div>
+    </li>
+</div>
+<script type="text/javascript">
+    var options = {
+        valueNames: ["name", "providerNo", "email", "state", "status", "createdon"],
+        item: "card-template",
+        listClass: "provider-list",
+        page: 42,
+        pagination: [{
+            name: "paginationTop",
+            paginationClass: "paginationTop",
+            outerWindow: 2
+        }, {
+            paginationClass: "paginationBottom",
+            innerWindow: 3,
+            left: 2,
+            right: 4
+        }]
+    };
+    var serviceOptions = {
+        valueNames: ["name", "serviceNo", "providerNo", "email", "state", "status"],
+        item: "service-template",
+        page: 8,
+        listClass: "service-list",
+        pagination: [{
+            name: "paginationTop",
+            paginationClass: "paginationTop",
+            outerWindow: 2
+        }]
+    };
+    /* load services JSON */
+    let servicesObj;
+    let sHttpRequest = new XMLHttpRequest(); // asynchronous request
+    sHttpRequest.open("GET", "/servicesdata/", true);
+    sHttpRequest.send();
+    sHttpRequest.addEventListener("readystatechange", function () {
+        if (this.readyState === this.DONE) {
+            servicesObj = JSON.parse(this.response);
+            console.log(servicesObj);
+        }
+    });
+    /* load Providers JSON */
+    let providersObj;
+    let relatedServices;
+    let httpRequest = new XMLHttpRequest(); // asynchronous request
+    httpRequest.open("GET", "/providersdata/", true);
+    httpRequest.send();
+    httpRequest.addEventListener("readystatechange", function () {
+        if (this.readyState === this.DONE) {
+            // when the request has completed
+            providersObj = JSON.parse(this.response);
+            console.log(providersObj);
+            var providerList = new List("providers-list", options, providersObj);
+            providerList.update();
+            providerList.on("updated", function () {
+                dlg();
+            });
+            $("#preloader").hide();
+            /* toggle */
+            dlg();
+        }
+    });
+    function dlg() {
+        var serviceList;
+        $(".related-items").on("click", function () {
+            $('#new-provider').hide();
+            $('#new-service').hide();
+            $("#provider-list-container").show();
+            let buttonId = $(this).attr("dlg-data");
+            let providerNum = $(this).parents(".item").find(".providerNo").text();
+            console.log(providerNum);
+            //filter services obj with provider no
+            if (servicesObj != null) {
+                relatedServices = servicesObj.filter(function (service) {
+                    return service.providerNo == providerNum;
+                })
+            }
+
+            if (relatedServices != null) {
+                relatedServices.length == 0 ? $("#no-services").show() : serviceList = new List("modal-container", serviceOptions, relatedServices);
+            }
+
+            $("#modal-container").removeAttr("class").addClass(buttonId);
+            $("body").addClass("modal-active");
+        });
+        $("#close-dlg").on("click", function () {
+            $("#modal-container").addClass("out");
+            $("#no-services").hide();
+            if (serviceList != null) {
+                serviceList.clear();
+            }
+            $("body").removeClass("modal-active");
+        });
+
+        $("[view-data-toggle]").on("click", function () {
+            var toggle;
+            toggle = $(this).addClass("active").attr("view-data-toggle");
+            $(this).siblings("[view-data-toggle]").removeClass("active");
+            return $(".surveys").removeClass("grid card").addClass(toggle);
+        });
+    }
+    $("#close-dlg").on("click", function () {
+        $("#modal-container").addClass("out");
+        $("body").removeClass("modal-active");
+    });
+
+    function addProvider(isiFrame) {
+        if (isiFrame) {
+            console.log('add provider clicked')
+            $("#modal-container").removeAttr("class").addClass('dlgbox md-dlg');
+            $("body").addClass("modal-active");
+            $('#new-provider').show();
+            $('#new-service').hide();
+            $("#provider-list-container").hide();
+        }
+
+    }
+    function addService(isiFrame) {
+        if (isiFrame) {
+            $("#modal-container").removeAttr("class").addClass('dlgbox md-dlg');
+            $("body").addClass("modal-active");
+            $('#new-service').show();
+            $('#new-provider').hide();
+            $("#provider-list-container").hide();
+        }
+
+    }
+</script>
